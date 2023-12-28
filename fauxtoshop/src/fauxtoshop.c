@@ -6,7 +6,7 @@
 #define HEIGHT 22
 
 int main() {
-    char headers[SIZE];
+    char headers[SIZE], off;
     int i, j;
 
     // Read headers from stdin
@@ -21,6 +21,13 @@ int main() {
     if (bitCount != 24) 
         exit(1);
         
+    if(headers[10] > 0x36){
+        for(i=0; i < headers[10]-0x36; i++){
+            off = getchar();
+            putchar(off);
+        }
+    }
+
     int width = *(int*)&headers[WIDTH];
     int height = *(int*)&headers[HEIGHT];
 
@@ -32,24 +39,24 @@ int main() {
     fwrite(headers, SIZE, 1, stdout);
 
     // Allocate memory for colors
-    unsigned char ***color = (unsigned char ***)malloc(sizeof(unsigned char **) * height);
+    char ***color = (char ***)malloc(sizeof(char **) * height);
     for (i = 0; i < height; i++)
-        color[i] = (unsigned char **)malloc(sizeof(unsigned char *) * width);
+        color[i] = (char **)malloc(sizeof(char *) * width);
 
     int padding = (4 - (width * 3) % 4) % 4;
-    unsigned char pad; // For reading padding
+    char pad; // For reading padding
 
     // Read color data into the array and rotate the image
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
-            color[i][j] = (unsigned char *)malloc(sizeof(unsigned char) * 3);
-            read = fread(color[i][j], sizeof(unsigned char), 3, stdin);
+            color[i][j] = (char *)malloc(sizeof(char) * 3);
+            read = fread(color[i][j], sizeof(char), 3, stdin);
             if(read != 3)
                 exit(1);
         }
         // Skip the padding
         for (j = 0; j < padding; j++){
-            read = fread(&pad, sizeof(unsigned char), 1, stdin);
+            read = fread(&pad, sizeof(char), 1, stdin);
             if(read != 1)
                 exit(1);
         }
@@ -59,7 +66,7 @@ int main() {
     // Write rotated color data to stdout
     for (i = width - 1; i >= 0; i--) { 
     for (j = 0; j < height; j++) {
-        fwrite(color[j][i], sizeof(unsigned char), 3, stdout); 
+        fwrite(color[j][i], sizeof(char), 3, stdout); 
     }
         // Write padding if necessary
         for (int k = 0; k < padding; k++)
