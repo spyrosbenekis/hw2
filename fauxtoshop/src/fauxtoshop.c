@@ -21,10 +21,14 @@ int main() {
     if (bitCount != 24) 
         exit(1);
         
+    int offset = *(int*)&headers[10];
+    offset -= 54;
+
+    char off[offset];
+
     if(headers[10] > 0x36){
-        for(i=0; i < headers[10]-0x36; i++){
-            off = getchar();
-            putchar(off);
+        for(i=0; i < offset; i++){
+            off[i] = getchar();
         }
     }
 
@@ -37,7 +41,8 @@ int main() {
 
     // Write modified headers to stdout
     fwrite(headers, SIZE, 1, stdout);
-
+    fwrite(off, offset, 1, stdout);
+    
     // Allocate memory for colors
     char ***color = (char ***)malloc(sizeof(char **) * height);
     for (i = 0; i < height; i++)
