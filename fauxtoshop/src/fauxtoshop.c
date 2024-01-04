@@ -6,7 +6,7 @@
 #define HEIGHT 22
 
 int main() {
-    char headers[SIZE], off;
+    char headers[SIZE];
     int i, j;
 
     // Read headers from stdin
@@ -42,7 +42,7 @@ int main() {
     // Write modified headers to stdout
     fwrite(headers, SIZE, 1, stdout);
     fwrite(off, offset, 1, stdout);
-    
+
     // Allocate memory for colors
     char ***color = (char ***)malloc(sizeof(char **) * height);
     for (i = 0; i < height; i++)
