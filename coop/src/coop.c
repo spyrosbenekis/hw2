@@ -1,37 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(){
-    
+int main() {
     int score = 0, counter = 0;
-    char my_choice='C', choice;
+    char my_choice = 'C';
 
     putchar(my_choice);
     putchar('\n');
 
-    while((choice=getchar())!=EOF && counter!=1000000){
+    while (counter != 1000000) {
+        int input = getchar();
 
-        if(choice=='C'){
-            if(my_choice=='D')
-                score+=5;
-            else
-                score+=3;
+        if (input == EOF)
+            break;
+
+        char choice = (char)input;
+
+        if (choice == 'C' || choice == 'D') {
+            if (choice == 'C') {
+                if (my_choice == 'D')
+                    score += 5;
+                else
+                    score += 3;
+            } else if (choice == 'D') {
+                if (my_choice == 'D')
+                    score += 1;
+            }
 
             my_choice = choice;
 
             putchar(my_choice);
             putchar('\n');
+        } else {
+            fflush(stdin);
         }
-        else if(choice=='D'){
 
-            if(my_choice=='D')
-                score += 1;
-        
-            my_choice = choice;
-
-            putchar(my_choice);
-            putchar('\n');
-        }
         counter++;
     }
 
