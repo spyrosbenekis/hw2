@@ -11,31 +11,29 @@ int main() {
     while (counter != 1000000) {
         int input = getchar();
 
-        if (input == EOF)
+        if(input == EOF)
             break;
 
-        char choice = (char)input;
-
-        if (choice == 'C' || choice == 'D') {
-            if (choice == 'C') {
+        if (input == 'C' || input == 'D') {
+            if (input == 'C') {
                 if (my_choice == 'D')
                     score += 5;
                 else
                     score += 3;
-            } else if (choice == 'D') {
+            } else if (input == 'D') {
                 if (my_choice == 'D')
                     score += 1;
             }
 
-            my_choice = choice;
+            my_choice = input;
 
             putchar(my_choice);
             putchar('\n');
-        } else {
-            fflush(stdin);
-        }
 
-        counter++;
+            counter++;
+        } 
+        else
+            fflush(stdin);
     }
 
     putchar(score);
