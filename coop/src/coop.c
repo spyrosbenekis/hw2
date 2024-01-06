@@ -32,8 +32,8 @@ int main() {
 
             counter++;
         } 
-        else
-            fflush(stdin);
+        // else
+        //     fflush(stdin);
     }
 
     putchar(score);
