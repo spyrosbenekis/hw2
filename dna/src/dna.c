@@ -44,7 +44,6 @@ int main(int argc, char *argv[]) {
     // Αναζήτηση κοινής ακολουθίας
     int max_common = 0;
     int start1 = 0;
-    int start2 = 0;
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
@@ -56,7 +55,6 @@ int main(int argc, char *argv[]) {
             if (k > max_common) {
                 max_common = k;
                 start1 = i;
-                start2 = j;
             }
         }
     }
