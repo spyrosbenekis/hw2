@@ -9,7 +9,7 @@ int main() {
     putchar('\n');
 
     int input = getchar();
-    while (counter != 1000000 && input != EOF) {
+    while (counter != 1000 && input != EOF) {
 
         if (input == EOF)
             break;
@@ -19,12 +19,11 @@ int main() {
             my_choice = input;
 
             putchar(my_choice);
+            fflush(stdout);
             putchar('\n');
-
+            fflush(stdout);
             counter++;
         }
-        else
-            fflush(stdout);
     }
 
     return 0;
