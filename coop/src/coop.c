@@ -4,6 +4,7 @@
 int main() {
     int counter = 0;
     char my_choice = 'C';
+    int countC = 0;
 
     putchar(my_choice);
     fflush(stdout);
@@ -22,7 +23,19 @@ int main() {
 
             my_choice = input;
 
-            if(counter == 999 && flag == 0)
+            if (input == 'C')
+                countC++;
+            else 
+                countC = 0;
+
+            if (countC == 5){
+                countC = 0;
+                my_choice = 'D';
+            }
+
+            if (my_choice == 'D')
+                flag = 1;
+            else if (counter > 990 && flag == 0)
                 my_choice = 'D';
 
             putchar(my_choice);
@@ -34,6 +47,8 @@ int main() {
 
         if(my_choice == 'D')
             flag = 1;
+
+        input = getchar();
     }
 
     return 0;
