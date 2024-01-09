@@ -14,10 +14,10 @@ int main() {
     int flag = 0;
 
     int input = getchar();
-    while (counter != 1000 && input != EOF) {
+    while (counter != 1000000 && input != EOF) {
 
         if (input == EOF)
-            break;
+            exit(0);
 
         if (input == 'C' || input == 'D') {
 
