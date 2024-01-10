@@ -16,9 +16,6 @@ int main() {
     int input = getchar();
     while (counter != 1000000 && input != EOF) {
 
-        if (input == EOF)
-            exit(0);
-
         if (input == 'C' || input == 'D') {
 
             my_choice = input;
@@ -28,6 +25,9 @@ int main() {
             else 
                 countC = 0;
 
+            if(counter%1000 == 0 && countC == 0)
+                my_choice = 'C';
+                
             if (countC == 100){
                 countC = 0;
                 my_choice = 'D';
@@ -35,7 +35,7 @@ int main() {
 
             if (my_choice == 'D')
                 flag = 1;
-            else if (counter > 990 && flag == 0)
+            else if (counter > 999990  && flag == 0)
                 my_choice = 'D';
 
             putchar(my_choice);
