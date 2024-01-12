@@ -28,7 +28,7 @@ int main() {
             if(counter%1000 == 0 && countC == 0)
                 my_choice = 'C';
                 
-            if (countC == 100){
+            if (countC == 5){
                 countC = 0;
                 my_choice = 'D';
             }
