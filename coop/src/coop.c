@@ -2,41 +2,35 @@
 #include <stdlib.h>
 
 int main() {
-    int counter = 0;
-    char my_choice = 'C';
-    int countC = 0;
+    int counter = 0;        // Loop counter
+    char my_choice = 'C';   // Initial choice
+    int countC = 0;         // Counter for consecutive 'C' occurrences
 
+    // Print the initial choice and a new line
     putchar(my_choice);
     fflush(stdout);
     putchar('\n');
     fflush(stdout);
 
-    int flag = 0;
+    int input = getchar(); // Read input
+    while (counter != 1000000 && input != EOF) { // Loop until the maximum number of iterations or EOF
 
-    int input = getchar();
-    while (counter != 1000000 && input != EOF) {
+        if (input == 'C' || input == 'D') { // Check if the input is 'C' or 'D'
 
-        if (input == 'C' || input == 'D') {
-
-            my_choice = input;
+            my_choice = input;  // Update the choice based on input
 
             if (input == 'C')
                 countC++;
             else 
                 countC = 0;
 
-            if(counter%1000 == 0 && countC == 0)
-                my_choice = 'C';
-                
-            if (countC == 5){
-                countC = 0;
-                my_choice = 'D';
-            }
+            if(counter % 1000 == 0 && countC == 0)
+                my_choice = 'C';  // Choose 'C' every 1000 iterations if there are no consecutive 'C's
 
-            if (my_choice == 'D')
-                flag = 1;
-            else if (counter > 999990  && flag == 0)
-                my_choice = 'D';
+            if (countC == 5) {
+                countC = 0;
+                my_choice = 'D';  // Choose 'D' if there are 5 consecutive 'C's
+            }
 
             putchar(my_choice);
             fflush(stdout);
@@ -44,9 +38,6 @@ int main() {
             fflush(stdout);
             counter++;
         }
-
-        if(my_choice == 'D')
-            flag = 1;
 
         input = getchar();
     }
