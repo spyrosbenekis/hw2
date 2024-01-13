@@ -12,6 +12,7 @@ int main() {
     int i, j;
 
     // Read header from stdin
+    int read = fread(headers, SIZE, 1, stdin);
     if (fread(headers, SIZE, 1, stdin) != 1)
         exit(1);
 
@@ -23,15 +24,15 @@ int main() {
     int bitCount = *(short int*)&headers[28];
     if (bitCount != 24) 
         exit(1);
-        
-    // Calculate the offset for color data
-    int offset = *(int*)&headers[10];
-    offset -= 54;
-
-    char *off = (char *)malloc(offset);
 
     // Read extra data before color information if it exists
     if(headers[10] > 0x36){
+        // Calculate the offset for color data
+        int offset = *(int*)&headers[10];
+        offset -= 54;
+
+        char *off = (char *)malloc(offset);
+
         for(i=0; i < offset; i++){
             off[i] = getchar();
         }
