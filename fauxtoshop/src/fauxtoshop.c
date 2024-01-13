@@ -1,31 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Constants indicating the position of header elements in bytes
 #define SIZE 54
 #define WIDTH 18
 #define HEIGHT 22
 
 int main() {
+
     char headers[SIZE];
     int i, j;
 
-    // Read headers from stdin
-    int read = fread(headers, SIZE, 1, stdin);
-    if (read != 1)
+    // Read header from stdin
+    if (fread(headers, SIZE, 1, stdin) != 1)
         exit(1);
 
+    // Check for the BMP magic header 'BM'
     if (headers[0] != 0x42 || headers[1] != 0x4D)
         exit(1);
     
+    // Check if the image is 24-bit
     int bitCount = *(short int*)&headers[28];
     if (bitCount != 24) 
         exit(1);
         
+    // Calculate the offset for color data
     int offset = *(int*)&headers[10];
     offset -= 54;
 
-    char off[offset];
+    char *off = (char *)malloc(offset);
 
+    // Read extra data before color information if it exists
     if(headers[10] > 0x36){
         for(i=0; i < offset; i++){
             off[i] = getchar();
@@ -70,9 +75,9 @@ int main() {
     padding = (4 - (height * 3) % 4) % 4;
     // Write rotated color data to stdout
     for (i = width - 1; i >= 0; i--) { 
-    for (j = 0; j < height; j++) {
-        fwrite(color[j][i], sizeof(char), 3, stdout); 
-    }
+        for (j = 0; j < height; j++) {
+            fwrite(color[j][i], sizeof(char), 3, stdout); 
+        }
         // Write padding if necessary
         for (int k = 0; k < padding; k++)
             fputc(0x00, stdout);
@@ -85,6 +90,7 @@ int main() {
         free(color[i]);
     }
     free(color);
+    free(off);
 
     return 0;
-}     
+}
