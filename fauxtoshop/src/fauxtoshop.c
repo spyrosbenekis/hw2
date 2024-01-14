@@ -13,7 +13,7 @@ int main() {
 
     // Read header from stdin
     int read = fread(headers, SIZE, 1, stdin);
-    if (fread(headers, SIZE, 1, stdin) != 1)
+    if (read != 1)
         exit(1);
 
     // Check for the BMP magic header 'BM'
@@ -24,6 +24,15 @@ int main() {
     int bitCount = *(short int*)&headers[28];
     if (bitCount != 24) 
         exit(1);
+
+    int width = *(int*)&headers[WIDTH];
+    int height = *(int*)&headers[HEIGHT];
+
+    // Swap width and height in the headers
+    *(int*)&headers[WIDTH] = height;
+    *(int*)&headers[HEIGHT] = width;
+
+    fwrite(headers, SIZE, 1, stdout);
 
     // Read extra data before color information if it exists
     if(headers[10] > 0x36){
@@ -36,18 +45,10 @@ int main() {
         for(i=0; i < offset; i++){
             off[i] = getchar();
         }
+
+        fwrite(off, offset, 1, stdout);
+        free(off);
     }
-
-    int width = *(int*)&headers[WIDTH];
-    int height = *(int*)&headers[HEIGHT];
-
-    // Swap width and height in the headers
-    *(int*)&headers[WIDTH] = height;
-    *(int*)&headers[HEIGHT] = width;
-
-    // Write modified headers to stdout
-    fwrite(headers, SIZE, 1, stdout);
-    fwrite(off, offset, 1, stdout);
 
     // Allocate memory for colors
     char ***color = (char ***)malloc(sizeof(char **) * height);
@@ -91,7 +92,6 @@ int main() {
         free(color[i]);
     }
     free(color);
-    free(off);
 
     return 0;
 }
